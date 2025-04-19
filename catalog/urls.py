@@ -9,6 +9,9 @@ urlpatterns = [
     path('product/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
     path('contact_us/', contact_us, name='contact_us'),
     path('product_list/', ProductListView.as_view(), name='product_list'),
+    path('create_product', ProductCreateView.as_view(), name='product_create'),
+    path('update_product/<int:pk>', ProductUpdateView.as_view(), name='product_update'),
+    path('product_delete/<int:pk>', ProductDeleteView.as_view(), name='product_delete')
 ]
 
 if settings.DEBUG:

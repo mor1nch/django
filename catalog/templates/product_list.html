@@ -2,22 +2,29 @@
 
 {% block title %}Product List{% endblock %}
 {% block description %}
-<p class="fs-5 text-body-secondary">Продукты</p>{% endblock %}
+<p class="fs-5 text-body-secondary">Продукты</p>
+<a href="{% url 'product_create' %}" class="btn btn-primary">Create product</a>{% endblock %}
 
 {% block content %}
 <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    {% for object in object_list %}
+    {% for item in products_with_versions %}
     <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">{{ object.name }}</h4>
+                <h4 class="my-0 fw-normal">{{ item.product.name }}</h4>
             </div>
             <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ object.price_per_unit }}$</h1>
+                <h1 class="card-title pricing-card-title">{{ item.product.price_per_unit }}$</h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                    <li>{{ object.description|truncatechars:100 }}</li>
+                    <li>{{ item.product.description|truncatechars:100 }}</li>
                 </ul>
-                <a href="{% url 'product_detail' object.id %}" class="w-100 btn btn-lg btn-primary">Buy!</a>
+                {% if item.active_version %}
+                <p><strong>Active Version:</strong> {{ item.active_version.version_name }} ({{
+                    item.active_version.version_number }})</p>
+                {% else %}
+                <p><strong>No active version available.</strong></p>
+                {% endif %}
+                <a href="{% url 'product_detail' item.product.pk %}" class="w-100 btn btn-lg btn-primary">Buy!</a>
             </div>
         </div>
     </div>
