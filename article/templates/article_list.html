@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Articles{% endblock %}
+{% block description %}
+<p class="fs-5 text-body-secondary">Записи блога</p>
+<a href="{% url 'article-create' %}" class="btn btn-primary">Create article</a>{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    {% for object in object_list %}
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">{{ object.title }}</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>{{ object.body }}</li>
+                </ul>
+                <a href="{% url 'article-detail' object.slug %}" class="w-100 btn btn-lg btn-primary">View!</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

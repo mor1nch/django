@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Create article{% endblock %}
+
+{% block description %}
+<p class="lead"></p>
+<h2>Create article</h2>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if object %}
+        <button type="submit">Change</button>
+        {% else %}
+        <button type="submit">Publish</button>
+        {% endif %}
+    </form>
+
+    <div class="mt-4">
+        <h5>Our Address:</h5>
+        <p>1234 Main St,<br>City, Country 12345</p>
+    </div>
+</div>
+{% endblock %}

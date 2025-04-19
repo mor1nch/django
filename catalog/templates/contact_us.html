@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+ 
+ {% block title %}Contact Us{% endblock %}
+ 
+ {% block description %}
+     <p class="lead">We would love to hear from you! Please fill out the form below to get in touch with us.</p>
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="container">
+     <h2>Contact Us</h2>
+     <form action="{% url 'contact_us' %}" method="post">
+         {% csrf_token %}
+         <div class="mb-3">
+             <label for="name" class="form-label">Name</label>
+             <input type="text" class="form-control" id="name" name="name" required>
+         </div>
+         <div class="mb-3">
+             <label for="phone" class="form-label">Phone Number</label>
+             <input type="tel" class="form-control" id="phone" name="phone" required>
+         </div>
+         <div class="mb-3">
+             <label for="message" class="form-label">Message</label>
+             <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+         </div>
+         <button type="submit" class="btn btn-primary">Submit</button>
+     </form>
+     <div class="mt-4">
+         <h5>Our Address:</h5>
+         <p>1234 Main St,<br>City, Country 12345</p>
+     </div>
+ </div>
+ {% endblock %}

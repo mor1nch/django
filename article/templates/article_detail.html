@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load image_tags %}
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-2">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if object.preview %}
+                {% image_tag object.preview.url 225 225 %}
+                {% else %}
+                <img src="https://via.placeholder.com/400" class="img-fluid rounded-start"
+                     alt="No image available">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.title }}</h5>
+                    <p class="card-text">{{ object.body }}</p>
+                    <p class="card-text"><small class="text-muted">Created at: {{ object.created_at }}</small></p>
+                    <p class="card-text">Просмотры: {{ object.views }}</p>
+                    <a href="{% url 'article-update' object.slug %}" class="btn btn-primary">Change</a>
+                    <a href="{% url 'article-list' %}" class="btn btn-primary">Back to Articles</a>
+                    <a href="{% url 'article-delete' object.slug %}" class="btn btn-primary">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

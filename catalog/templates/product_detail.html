@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load image_tags %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if product.image %}
+                {% image_tag product.image.url 300 300 %}
+                {% else %}
+                <img src="https://via.placeholder.com/400" class="img-fluid rounded-start"
+                     alt="No image available">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><strong>Price per unit:</strong> ${{ product.price_per_unit }}</p>
+                    <p class="card-text"><small class="text-muted">Created at: {{ product.created_at }}</small></p>
+                    <p class="card-text"><small class="text-muted">Updated at: {{ product.updated_at }}</small></p>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary">Back to Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

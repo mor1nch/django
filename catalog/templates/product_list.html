@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Product List{% endblock %}
+{% block description %}
+<p class="fs-5 text-body-secondary">Продукты</p>{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    {% for object in object_list %}
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">{{ object.name }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ object.price_per_unit }}$</h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>{{ object.description|truncatechars:100 }}</li>
+                </ul>
+                <a href="{% url 'product_detail' object.id %}" class="w-100 btn btn-lg btn-primary">Buy!</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
