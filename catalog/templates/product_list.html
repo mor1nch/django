@@ -19,12 +19,13 @@
                     <li>{{ item.product.description|truncatechars:100 }}</li>
                 </ul>
                 {% if item.active_version %}
-                <p><strong>Active Version:</strong> {{ item.active_version.version_name }} ({{
-                    item.active_version.version_number }})</p>
+                <p><strong>Active Version:</strong> {{ item.active_version.version_name }}
+                                ({{ item.active_version.version_number }})</p>
                 {% else %}
                 <p><strong>No active version available.</strong></p>
                 {% endif %}
-                <a href="{% url 'product_detail' item.product.pk %}" class="w-100 btn btn-lg btn-primary">Buy!</a>
+                <a href="{% url 'product_detail' item.product.id %}"
+                           class="w-100 btn btn-lg btn-primary">Buy!</a>
             </div>
         </div>
     </div>

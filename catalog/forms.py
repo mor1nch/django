@@ -6,7 +6,7 @@ from catalog.models import Product, Version
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['updated_at', 'created_at']
+        exclude = ['updated_at', 'created_at', 'owner']
 
     def __init__(self, *args, **kwargs):
         self.restricted_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',

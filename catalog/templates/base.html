@@ -161,12 +161,26 @@
             </a>
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                {% if user.is_authenticated %}
+                <p class="me-3 py-2 link-body-emphasis text-decoration-none">
+                    Аккаунт: {{ user.email }}</p>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'reset_password' %}">Сменить
+                    пароль</a>
+                <form class="me-3 py-2 link-body-emphasis text-decoration-none" action="{% url 'logout' %}"
+                      method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="me-3 py-2 link-body-emphasis text-decoration-none">Выйти</button>
+                </form>
+                {% else %}
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'login' %}">Войти</a>
+                {% endif %}
                 <a class="me-4 py-2 link-body-emphasis text-decoration-none"
                    href="{% url 'article-list' %}">Articles </a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none"
                    href="{% url 'product_list' %}">Products</a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'contact_us' %}">Contact
                     Us</a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'register' %}">Sign up</a>
             </nav>
         </div>
 

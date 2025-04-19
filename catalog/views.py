@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
@@ -36,17 +38,28 @@ class ProductDetailView(DetailView):
     template_name = 'product_detail.html'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product_list')
     template_name = 'product_create.html'
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_create.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
+        if product.owner != request.user:
+            return HttpResponseForbidden(
+                "Вы не можете редактировать этот продукт, так как вы не являетесь его владельцем.")
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('product_detail', args=[self.object.id])
