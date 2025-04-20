@@ -6,6 +6,7 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, D
 
 from catalog.forms import ProductForm
 from catalog.models import Product, Version
+from catalog.services import get_categories
 
 
 def main_menu(request):
@@ -30,6 +31,7 @@ class ProductListView(ListView):
             })
 
         context['products_with_versions'] = products_with_versions
+        context['categories'] = get_categories()
         return context
 
 
