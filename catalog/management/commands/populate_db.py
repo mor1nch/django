@@ -17,4 +17,7 @@ class Command(BaseCommand):
         call_command('loaddata', 'categories.json')
         call_command('loaddata', 'products.json')
 
+        self.stdout.write('Loading groups and permissions...')
+        call_command('loaddata', 'groups.json')
+
         self.stdout.write('Database population complete.')

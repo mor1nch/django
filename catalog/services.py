@@ -5,7 +5,7 @@ from catalog.models import Category
 
 
 def get_categories():
-    if settings.CACHE_ENABLED:
+    if settings.CACHED_ENABLED:
         key = 'categories_list'
         cache_data = cache.get(key)
 
