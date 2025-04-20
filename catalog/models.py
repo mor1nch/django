@@ -31,6 +31,7 @@ class Product(models.Model):
         verbose_name="Владелец",
         **NULLABLE,
     )
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -38,6 +39,11 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+        permissions = [
+            ("can_change_description", "Can change description"),
+            ("can_change_category", "Can change category"),
+            ("can_change_is_published", "Can change is_published"),
+        ]
 
 
 class Version(models.Model):

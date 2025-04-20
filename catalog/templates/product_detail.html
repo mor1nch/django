@@ -28,8 +28,12 @@
                     <p class="card-text"><small class="text-muted">Created at: {{ product.created_at }}</small></p>
                     <p class="card-text"><small class="text-muted">Updated at: {{ product.updated_at }}</small></p>
                     <a href="{% url 'product_list' %}" class="btn btn-primary">Back to Products</a>
+                    {% if is_owner or is_manager %}
                     <a href="{% url 'product_update' product.id %}" class="btn bg-body-secondary">Change</a>
+                    {% endif %}
+                    {% if is_owner or is_manager %}
                     <a href="{% url 'product_delete' product.id %}" class="btn btn-primary">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

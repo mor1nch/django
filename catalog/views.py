@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -38,15 +38,40 @@ class ProductDetailView(DetailView):
     template_name = 'product_detail.html'
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('product_list')
     template_name = 'product_create.html'
+    permission_required = [
+        'catalog.can_change_description',
+        'catalog.can_change_category',
+        'catalog.can_change_is_published'
+    ]
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+    def has_permission(self):
+        product = self.get_object()
+        if product.owner == self.request.user:
+            return True
+        return super().has_permission()
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+
+        user = self.request.user
+
+        if self.object.owner == user:
+            return form
+
+        if user.groups.filter(name='manager').exists():
+            allowed_fields = ['description', 'category', 'is_published']
+            form.fields = {key: form.fields[key] for key in allowed_fields if key in form.fields}
+
+        return form
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -69,6 +94,15 @@ class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
     template_name = 'product_confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        product = self.get_object()
+
+        context['is_owner'] = product.owner == user
+        context['is_manager'] = user.groups.filter(name='manager').exists()
+        return context
 
 
 def contact_us(request):
